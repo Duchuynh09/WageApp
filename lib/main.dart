@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wage_app/UI/user/userManager.dart';
-import 'package:wage_app/UI/wage/wageList.dart';
+import 'package:wage_app/ui/manager/formaddstaff.dart';
+import 'package:wage_app/ui/manager/showstaff.dart';
+import 'package:wage_app/ui/manager/staffManager.dart';
+import 'package:wage_app/ui/model/staff_model.dart';
+import 'package:wage_app/ui/wage/wageList.dart';
 import 'UI/wage/addWage.dart';
-import 'UI/model/user_model.dart';
 import 'UI/wage/wageManager.dart';
 
 void main() {
@@ -18,26 +20,36 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => WageManager(),
+            create: (context) => StaffManager(),
           ),
           ChangeNotifierProvider(
-            create: (context) => UserManager(),
-          )
+            create: (context) => WageManager(),
+          ),
         ],
         child: MaterialApp(
           routes: {
-            // AddWage.routeName: (ctx) => AddWage(),
-            ScreenWage.routeName: (context) => const ScreenWage()
+            Showstaff.routeName: (context) => const Showstaff(),
+            FormAddStaff.routeName: (context) => const FormAddStaff(),
           },
           onGenerateRoute: (settings) {
-            if (settings.name == AddWage.routeName) {
-              final User user = settings.arguments as User;
+            if (settings.name == ScreenWage.routeName) {
+              final Staff staff = settings.arguments as Staff;
               return MaterialPageRoute(
                 builder: (ctx) {
-                  return AddWage(user);
+                  return ScreenWage(staff);
+                },
+              );
+            } else {
+              final Staff staff = settings.arguments as Staff;
+              return MaterialPageRoute(
+                builder: (ctx) {
+                  return AddWage(staff);
                 },
               );
             }
+            // if (settings.name == AddWage.routeName) {
+
+            // }
           },
           title: 'Wage app',
           debugShowCheckedModeBanner: false,
@@ -45,7 +57,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home: AddWage(
-            User(
+            Staff(
               id: 1,
               age: DateTime(1999, 09, 09),
               name: 'Đức',

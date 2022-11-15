@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:wage_app/UI/model/user_model.dart';
-import 'package:wage_app/UI/model/wage_model.dart';
-import 'package:wage_app/UI/share/appDrawer.dart';
-import 'package:wage_app/UI/wage/wageManager.dart';
+import 'package:wage_app/ui/model/wage_model.dart';
+import 'package:wage_app/ui/share/appDrawer.dart';
+import 'package:wage_app/ui/wage/wageManager.dart';
+import 'package:wage_app/ui/model/staff_model.dart';
 
 class AddWage extends StatefulWidget {
   static const String routeName = "/AddWage";
-  AddWage(User user, {super.key}) {
+  AddWage(Staff staff, {super.key}) {
     // ignore: prefer_initializing_formals
-    this.user = user;
+    this.staff = staff;
   }
-  late final User user;
+  late final Staff staff;
 
   @override
   State<AddWage> createState() => _AddWageState();
@@ -71,7 +71,7 @@ class _AddWageState extends State<AddWage> {
       builder: (context, wageManager, child) {
         return ElevatedButton(
           onPressed: () {
-            wageManager.addWage(widget.user.id, wageAdd);
+            wageManager.addWage(widget.staff.id, wageAdd);
           },
           child: Icon(
             Icons.check,
@@ -226,7 +226,7 @@ class _AddWageState extends State<AddWage> {
           style: GoogleFonts.lato(fontSize: 28),
         ),
         TextFormField(
-          initialValue: widget.user.name,
+          initialValue: widget.staff.name,
           readOnly: true,
           decoration: const InputDecoration(
             // hintText: 'Tên nhân viên',

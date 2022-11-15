@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// import 'package:wage_app/ui/manager/formaddstaff.dart';
 import 'package:wage_app/ui/manager/staffManager.dart';
+import 'package:wage_app/ui/wage/addWage.dart';
+import 'package:wage_app/ui/wage/wageList.dart';
 
 class Showstaff extends StatefulWidget {
   static const String routeName = "/Showstaff";
@@ -34,26 +37,32 @@ class _ShowstaffState extends State<Showstaff> {
           return ListTile(
             title: Container(
               padding: const EdgeInsets.all(8),
-              color: Colors.teal[100],
+              // color: Colors.teal[100],
               child: Column(
                 children: [
                   ExpansionTile(
-                    title: Text(
-                        context.read<StaffManager>().items[index].toString()),
+                    title: Text(context.read<StaffManager>().items[index].name),
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           TextButton(
-                              onPressed: () {},
-                              child: const Text('Chức năng 1')),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, ScreenWage.routeName,
+                                    arguments: context
+                                        .read<StaffManager>()
+                                        .items[index]);
+                              },
+                              child: const Text('Xem gio da lam')),
                           TextButton(
-                              onPressed: () {},
-                              child: const Text('Chức năng 2')),
-                          TextButton(
-                              onPressed: () {},
-                              child: const Text('Chức năng 3'))
+                              onPressed: () {
+                                Navigator.pushNamed(context, AddWage.routeName,
+                                    arguments: context
+                                        .read<StaffManager>()
+                                        .items[index]);
+                              },
+                              child: const Text('Nhap gio lam')),
                         ],
                       ),
                     ],

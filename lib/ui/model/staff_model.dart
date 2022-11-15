@@ -10,4 +10,15 @@ class Staff {
       age: age ?? this.age,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'age': age,
+    };
+  }
+
+  static Staff fromJson(Map<String, dynamic> json) {
+    return Staff(id: json['id'], name: json['name'], age: json['age']);
+  }
 }

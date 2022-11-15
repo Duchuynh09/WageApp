@@ -1,24 +1,22 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wage_app/ui/manager/staffManager.dart';
 
-class Formaddstaff extends StatefulWidget {
-  const Formaddstaff({super.key});
+class FormAddStaff extends StatefulWidget {
+  const FormAddStaff({super.key});
+  static const String routeName = "/FormAddStaff";
 
   @override
-  State<Formaddstaff> createState() => _FormaddstaffState();
+  State<FormAddStaff> createState() => _FormAddStaffState();
 }
 
-class _FormaddstaffState extends State<Formaddstaff> {
+class _FormAddStaffState extends State<FormAddStaff> {
   String username = "";
   late DateTime ngaysinh = DateTime(1999);
   TextEditingController controller = TextEditingController();
   @override
   void initState() {
-    // TODO: implement initState
     controller.addListener(() {
       controller.text = DateFormat("dd-MM-yyyy").format(ngaysinh);
       ValueNotifier(ngaysinh);
@@ -29,7 +27,6 @@ class _FormaddstaffState extends State<Formaddstaff> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     controller.dispose();
     super.dispose();
   }

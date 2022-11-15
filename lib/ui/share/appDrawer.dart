@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wage_app/UI/wage/wageList.dart';
-import 'package:wage_app/UI/wage/wageManager.dart';
+import 'package:wage_app/ui/manager/formaddstaff.dart';
+import 'package:wage_app/ui/manager/showstaff.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -23,6 +23,18 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Hien thi danh sach luong'),
             onTap: () {
               Navigator.pushNamed(context, ScreenWage.routeName);
+            },
+          ),
+          ListTile(
+            title: const Text('Trang thi danh sach nhan vien '),
+            onTap: () {
+              Navigator.pushNamed(context, Showstaff.routeName);
+            },
+          ),
+          ListTile(
+            title: const Text('Hien thi them nhan vien'),
+            onTap: () {
+              Navigator.pushNamed(context, FormAddStaff.routeName);
             },
           ),
         ],

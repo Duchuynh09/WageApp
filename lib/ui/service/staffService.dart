@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:wage_app/ui/model/user_model.dart';
+import 'package:wage_app/ui/model/staff_model.dart';
 
 import 'fireBase.dart';
 
-class UserService extends FirebaseService {
-  UserService() : super();
+class StaffService extends FirebaseService {
+  StaffService() : super();
 
-  Future<List<User>> fetchUsers() async {
-    final List<User> usres = [];
+  Future<List<Staff>> fetchUsers() async {
+    final List<Staff> usres = [];
     try {
       final usresUrl = Uri.parse('$databaseUrl/staff.json');
       final response = await http.get(usresUrl);
-      final usresMap = json.decode(response.body) as List<User>;
+      final usresMap = json.decode(response.body) as List<Staff>;
 
       if (response.statusCode != 200) {
         return usres;
@@ -25,13 +25,13 @@ class UserService extends FirebaseService {
     }
   }
 
-  Future<User?> addProduct(User user) async {
+  Future<Staff?> addStaff(Staff staff) async {
     try {
       final url = Uri.parse('$databaseUrl/staff.json');
       final response = await http.post(
         url,
         body: json.encode(
-          user.toJson()..addAll({}),
+          staff.toJson()..addAll({}),
         ),
       );
 
@@ -39,7 +39,7 @@ class UserService extends FirebaseService {
         throw Exception(json.decode(response.body)['error']);
       }
 
-      return user.copyWith(
+      return staff.copyWith(
         id: json.decode(response.body)['name'],
       );
     } catch (error) {
@@ -47,6 +47,7 @@ class UserService extends FirebaseService {
       return null;
     }
   }
+
   Future<bool> deleteProduct(String id) async {
     try {
       final url = Uri.parse('$databaseUrl/staff/$id.json');

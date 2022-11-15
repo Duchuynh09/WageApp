@@ -1,15 +1,18 @@
 import 'package:flutter/foundation.dart';
-import 'package:wage_app/UI/model/wage_model.dart';
+import 'package:wage_app/ui/model/wage_model.dart';
 
 class WageManager extends ChangeNotifier {
   final Map<int, List<Wage>> _items = {};
-
   Map<int, List<Wage>> get items {
     return _items;
   }
 
   Iterable<List<Wage>> get listItems {
     return _items.values;
+  }
+
+  int itemsCount(int id) {
+    return _items[id]!.isNotEmpty ? _items[id]!.length : 0;
   }
 
   void addWage(int id, Wage wage) {
