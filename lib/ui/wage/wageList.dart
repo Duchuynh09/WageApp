@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:wage_app/ui/model/staff_model.dart';
 import 'package:wage_app/ui/wage/wageManager.dart';
 import 'package:wage_app/ui/wage/wageTile.dart';
@@ -20,19 +19,20 @@ class _ScreenWageState extends State<ScreenWage> {
   @override
   Widget build(BuildContext newcontext) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Danh sách chấm công'),
-      ),
-      body: widget.staff == null
-          ? const Text('chua co du lieu')
-          : Text(newcontext.read<WageManager>().items.toString()),
-    );
+        appBar: AppBar(
+          title: const Text('Danh sách chấm công'),
+        ),
+        body: context.read<WageManager>().items.containsKey(widget.staff.id) ==
+                false
+            ? const Text('chua co du lieu')
+            : ListWage(context.read<WageManager>()));
   }
 
   Widget ListWage(WageManager wageManager) {
     return ListView.builder(
       itemBuilder: (context, index) {
-        return Text('');
+        // print(wageManager.items[widget.staff.id]!.elementAt(index));
+        return WageTile(wageManager.items[widget.staff.id]!.elementAt(index));
       },
       itemCount: wageManager.itemsCount(widget.staff.id),
     );

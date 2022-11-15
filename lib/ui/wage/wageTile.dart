@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:wage_app/UI/model/wage_model.dart';
+import 'package:wage_app/ui/model/wage_model.dart';
 
 class WageTile extends StatelessWidget {
   const WageTile(this.wage, {Key? key}) : super(key: key);

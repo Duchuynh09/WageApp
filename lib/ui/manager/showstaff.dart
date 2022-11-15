@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:wage_app/ui/manager/formaddstaff.dart';
 import 'package:wage_app/ui/manager/staffManager.dart';
+import 'package:wage_app/ui/share/appDrawer.dart';
 import 'package:wage_app/ui/wage/addWage.dart';
 import 'package:wage_app/ui/wage/wageList.dart';
+import '../share/appDrawer.dart';
 
 class Showstaff extends StatefulWidget {
   static const String routeName = "/Showstaff";
@@ -29,6 +31,7 @@ class _ShowstaffState extends State<Showstaff> {
           title: const Center(
         child: Text('Danh sách nhân viên'),
       )),
+      drawer: const AppDrawer(),
       body: ListView.builder(
         primary: false,
         padding: const EdgeInsets.all(20),

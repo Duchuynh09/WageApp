@@ -4,9 +4,9 @@ import 'package:wage_app/ui/manager/formaddstaff.dart';
 import 'package:wage_app/ui/manager/showstaff.dart';
 import 'package:wage_app/ui/manager/staffManager.dart';
 import 'package:wage_app/ui/model/staff_model.dart';
-import 'package:wage_app/ui/wage/wageList.dart';
-import 'UI/wage/addWage.dart';
-import 'UI/wage/wageManager.dart';
+import 'package:wage_app/ui/wage/wageManager.dart';
+import 'ui/wage/addWage.dart';
+import 'ui/wage/wageList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -36,33 +35,28 @@ class MyApp extends StatelessWidget {
               final Staff staff = settings.arguments as Staff;
               return MaterialPageRoute(
                 builder: (ctx) {
+                  // print("ScreenWage");
                   return ScreenWage(staff);
                 },
               );
-            } else {
+            }
+            if (settings.name == AddWage.routeName) {
               final Staff staff = settings.arguments as Staff;
               return MaterialPageRoute(
                 builder: (ctx) {
+                  // print("AddWage");
                   return AddWage(staff);
                 },
               );
             }
-            // if (settings.name == AddWage.routeName) {
-
-            // }
+            return null;
           },
           title: 'Wage app',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: AddWage(
-            Staff(
-              id: 1,
-              age: DateTime(1999, 09, 09),
-              name: 'Đức',
-            ),
-          ),
+          home: const Showstaff(),
         ));
   }
 }

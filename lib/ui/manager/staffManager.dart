@@ -4,7 +4,7 @@ import '../model/staff_model.dart';
 class StaffManager extends ChangeNotifier {
   final List<Staff> _items = [
     Staff(
-      id: 1,
+      id: 10,
       age: DateTime(1999, 09, 09),
       name: 'Đức',
     ),
