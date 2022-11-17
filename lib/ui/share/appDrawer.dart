@@ -20,12 +20,6 @@ class AppDrawer extends StatelessWidget {
             child: Text('Drawer Header'),
           ),
           ListTile(
-            title: const Text('Hien thi danh sach luong'),
-            onTap: () {
-              Navigator.pushNamed(context, ScreenWage.routeName);
-            },
-          ),
-          ListTile(
             title: const Text('Trang thi danh sach nhan vien '),
             onTap: () {
               Navigator.pushNamed(context, Showstaff.routeName);

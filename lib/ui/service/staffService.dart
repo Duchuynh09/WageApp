@@ -7,27 +7,32 @@ import 'fireBase.dart';
 class StaffService extends FirebaseService {
   StaffService() : super();
 
-  Future<List<Staff>> fetchUsers() async {
-    final List<Staff> usres = [];
+  Future<List<Staff>> fetchStaff() async {
+    final List<Staff> staffs = [];
     try {
-      final usresUrl = Uri.parse('$databaseUrl/staff.json');
+      final usresUrl = Uri.parse('$databaseUrl/staffs.json');
       final response = await http.get(usresUrl);
-      final usresMap = json.decode(response.body) as List<Staff>;
-
+      final staffMap = json.decode(response.body) as Map<String, dynamic>;
       if (response.statusCode != 200) {
-        return usres;
+        return staffs;
       }
+      staffMap.forEach((staffId, staff) {
+        staffs.add(Staff.fromJson({
+          'id': staffId,
+          ...staff,
+        }));
+      });
 
-      return usres;
+      return staffs;
     } catch (error) {
       print(error);
-      return usres;
+      return staffs;
     }
   }
 
   Future<Staff?> addStaff(Staff staff) async {
     try {
-      final url = Uri.parse('$databaseUrl/staff.json');
+      final url = Uri.parse('$databaseUrl/staffs.json');
       final response = await http.post(
         url,
         body: json.encode(
@@ -48,9 +53,9 @@ class StaffService extends FirebaseService {
     }
   }
 
-  Future<bool> deleteProduct(String id) async {
+  Future<bool> deleteStaff(String id) async {
     try {
-      final url = Uri.parse('$databaseUrl/staff/$id.json');
+      final url = Uri.parse('$databaseUrl/staffs/$id.json');
       final response = await http.delete(url);
       if (response.statusCode != 200) {
         throw Exception(json.decode(response.body)['error']);

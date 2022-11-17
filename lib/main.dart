@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wage_app/ui/manager/formaddstaff.dart';
-import 'package:wage_app/ui/manager/showstaff.dart';
-import 'package:wage_app/ui/manager/staffManager.dart';
-import 'package:wage_app/ui/model/staff_model.dart';
-import 'package:wage_app/ui/wage/wageManager.dart';
+import 'ui/model/staff_model.dart';
+import 'ui/manager/formaddstaff.dart';
+import 'ui/manager/showstaff.dart';
+import 'ui/manager/staffManager.dart';
+import 'ui/wage/wageManager.dart';
 import 'ui/wage/addWage.dart';
 import 'ui/wage/wageList.dart';
 
@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
               final Staff staff = settings.arguments as Staff;
               return MaterialPageRoute(
                 builder: (ctx) {
-                  // print("ScreenWage");
                   return ScreenWage(staff);
                 },
               );
@@ -44,7 +43,6 @@ class MyApp extends StatelessWidget {
               final Staff staff = settings.arguments as Staff;
               return MaterialPageRoute(
                 builder: (ctx) {
-                  // print("AddWage");
                   return AddWage(staff);
                 },
               );

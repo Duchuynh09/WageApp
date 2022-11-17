@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wage_app/ui/manager/staffManager.dart';
+import 'package:wage_app/ui/model/staff_model.dart';
 
 class FormAddStaff extends StatefulWidget {
   const FormAddStaff({super.key});
@@ -106,7 +107,9 @@ class _FormAddStaffState extends State<FormAddStaff> {
                       textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      context.read<StaffManager>().addUser(username, ngaysinh);
+                      context
+                          .read<StaffManager>()
+                          .addStaff(Staff(name: username, age: ngaysinh));
                     },
                     child: const Text('Thêm'),
                   ),

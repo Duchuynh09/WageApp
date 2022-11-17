@@ -5,6 +5,7 @@ import 'package:wage_app/ui/model/wage_model.dart';
 class WageTile extends StatelessWidget {
   const WageTile(this.wage, {Key? key}) : super(key: key);
   final Wage wage;
+  
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -15,10 +16,10 @@ class WageTile extends StatelessWidget {
           children: [
             Text(DateFormat("dd-MM").format(wage.day)),
             Text(
-              "Giờ vào ca: ${wage.checkIn.format(context)} ",
+              "Giờ vào ca: ${DateFormat.Hm().format(wage.checkIn)} ",
             ),
             Text(
-              "Giờ ra ca: ${wage.checkOut.format(context)}",
+              "Giờ ra ca: ${DateFormat.Hm().format(wage.checkOut)}",
             ),
           ],
         ),

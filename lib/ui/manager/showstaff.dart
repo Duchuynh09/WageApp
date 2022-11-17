@@ -16,6 +16,12 @@ class Showstaff extends StatefulWidget {
 }
 
 class _ShowstaffState extends State<Showstaff> {
+  late Future<void> _fetchStaff;
+
+  Future<void> _refreshProducts(BuildContext context) async {
+    await context.read<StaffManager>().fetchStaff();
+  }
+
   List<String> listItem = [
     'Chức năng 1',
     'Chức năng 2',
@@ -23,6 +29,11 @@ class _ShowstaffState extends State<Showstaff> {
     'Chức năng 4'
   ];
   late String valueChoose = '';
+  @override
+  void initState() {
+    super.initState();
+    _fetchStaff = context.read<StaffManager>().fetchStaff();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,50 +43,84 @@ class _ShowstaffState extends State<Showstaff> {
         child: Text('Danh sách nhân viên'),
       )),
       drawer: const AppDrawer(),
-      body: ListView.builder(
-        primary: false,
-        padding: const EdgeInsets.all(20),
-        itemCount: context.read<StaffManager>().items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Container(
-              padding: const EdgeInsets.all(8),
-              // color: Colors.teal[100],
-              child: Column(
-                children: [
-                  ExpansionTile(
-                    title: Text(context.read<StaffManager>().items[index].name),
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, ScreenWage.routeName,
-                                    arguments: context
-                                        .read<StaffManager>()
-                                        .items[index]);
-                              },
-                              child: const Text('Xem gio da lam')),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, AddWage.routeName,
-                                    arguments: context
-                                        .read<StaffManager>()
-                                        .items[index]);
-                              },
-                              child: const Text('Nhap gio lam')),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+      body: FutureBuilder(
+        future: _fetchStaff,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return RefreshIndicator(
+              onRefresh: () => _refreshProducts(context),
+              child: screen(),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         },
       ),
+    );
+  }
+
+  Widget screen() {
+    return ListView.builder(
+      primary: false,
+      padding: const EdgeInsets.all(20),
+      itemCount: context.read<StaffManager>().items.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Container(
+            padding: const EdgeInsets.all(8),
+            // color: Colors.teal[100],
+            child: Column(
+              children: [
+                ExpansionTile(
+                  title: Text(context.read<StaffManager>().items[index].name),
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, ScreenWage.routeName,
+                                  arguments: context
+                                      .read<StaffManager>()
+                                      .items[index]);
+                            },
+                            child: const Text('Xem gio da lam')),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, AddWage.routeName,
+                                  arguments: context
+                                      .read<StaffManager>()
+                                      .items[index]);
+                            },
+                            child: const Text('Nhap gio lam')),
+                        OutlinedButton(
+                          style: TextButton.styleFrom(primary: Colors.red),
+                          onPressed: () {
+                            context.read<StaffManager>().deleteStaff(
+                                context.read<StaffManager>().items[index].id);
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Product deleted',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                          },
+                          child: const Text('Bỏ nhân viên'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

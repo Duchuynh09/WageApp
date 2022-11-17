@@ -1,9 +1,11 @@
+import 'package:intl/intl.dart';
+
 class Staff {
-  late int id;
-  late String name;
-  late DateTime age;
-  Staff({required this.id, required this.name, required this.age});
-  Staff copyWith({int? id, String? name, DateTime? age}) {
+  late final String? id;
+  late final String name;
+  late final DateTime age;
+  Staff({required this.name, required this.age, this.id});
+  Staff copyWith({String? id, String? name, DateTime? age}) {
     return Staff(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -14,11 +16,14 @@ class Staff {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'age': age,
+      'age': age.millisecondsSinceEpoch,
     };
   }
 
   static Staff fromJson(Map<String, dynamic> json) {
-    return Staff(id: json['id'], name: json['name'], age: json['age']);
+    return Staff(
+        id: json['id'],
+        name: json['name'],
+        age: DateTime.fromMillisecondsSinceEpoch(json['age']));
   }
 }

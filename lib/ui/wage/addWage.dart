@@ -21,8 +21,8 @@ class AddWage extends StatefulWidget {
 
 class _AddWageState extends State<AddWage> {
   DateTime _dueDate = DateTime.now();
-  TimeOfDay _timeCheckIn = const TimeOfDay(hour: 5, minute: 30);
-  TimeOfDay _timeCheckOut = TimeOfDay.now();
+  DateTime _timeCheckIn = DateTime(0, 0, 0, 5, 30);
+  DateTime _timeCheckOut = DateTime.now();
   WageManager wageManager = WageManager();
   // ignore: non_constant_identifier_names
   List<TimeOfDay> CheckInTimes = [
@@ -114,7 +114,7 @@ class _AddWageState extends State<AddWage> {
             )
           ],
         ),
-        Text(DateFormat('dd-MM-yyyy').format(_dueDate)),
+        Text(DateFormat('MM/yyyy').format(_dueDate)),
       ],
     );
   }
@@ -146,17 +146,25 @@ class _AddWageState extends State<AddWage> {
               onPressed: () async {
                 final timeOfDay = await showTimePicker(
                   context: context,
-                  initialTime: _timeCheckIn,
+                  initialTime: TimeOfDay(
+                      hour: _timeCheckIn.hour, minute: _timeCheckIn.minute),
                   initialEntryMode: TimePickerEntryMode.input,
                 );
                 setState(
                   () {
                     if (timeOfDay != null) {
-                      _timeCheckIn = timeOfDay;
+                      _timeCheckIn = DateTime(
+                          _timeCheckIn.year,
+                          _timeCheckIn.month,
+                          _timeCheckIn.day,
+                          timeOfDay.hour,
+                          timeOfDay.minute);
                     }
                   },
                 );
-                wageAdd = wageAdd.copyWith(checkIn: _timeCheckIn);
+                wageAdd = wageAdd.copyWith(
+                    checkIn: DateTime(_dueDate.year, _dueDate.month,
+                        _dueDate.day, _timeCheckIn.hour, _timeCheckIn.minute));
               },
             )
           ],
@@ -164,7 +172,7 @@ class _AddWageState extends State<AddWage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(_timeCheckIn.format(context)),
+            Text(DateFormat.Hm().format(_timeCheckIn)),
             Column(
               children: [
                 Row(
@@ -203,9 +211,16 @@ class _AddWageState extends State<AddWage> {
                         onChanged: ((value) {
                           setState(() {
                             selectedValue = value as TimeOfDay;
-                            _timeCheckIn = value;
+                            _timeCheckIn =
+                                DateTime(0, 0, 0, value.hour, value.minute);
                           });
-                          wageAdd = wageAdd.copyWith(checkIn: _timeCheckIn);
+                          wageAdd = wageAdd.copyWith(
+                              checkIn: DateTime(
+                                  _dueDate.year,
+                                  _dueDate.month,
+                                  _dueDate.day,
+                                  _timeCheckIn.hour,
+                                  _timeCheckIn.minute));
                         }),
                       ),
                     ])
@@ -247,23 +262,31 @@ class _AddWageState extends State<AddWage> {
         ),
         Row(
           children: [
-            Text("${_timeCheckOut.format(context)} <="),
+            Text(DateFormat.Hm().format(_timeCheckOut)),
             TextButton(
               child: const Text('Chọn giờ ra ca'),
               onPressed: () async {
                 final timeOfDay = await showTimePicker(
                   context: context,
-                  initialTime: TimeOfDay.now(),
+                  initialTime: TimeOfDay(
+                      hour: _timeCheckOut.hour, minute: _timeCheckOut.minute),
                   initialEntryMode: TimePickerEntryMode.input,
                 );
                 setState(
                   () {
                     if (timeOfDay != null) {
-                      _timeCheckOut = timeOfDay;
+                      _timeCheckOut =
+                          DateTime(0, 0, 0, timeOfDay.hour, timeOfDay.minute);
                     }
                   },
                 );
-                wageAdd = wageAdd.copyWith(checkOut: _timeCheckOut);
+                wageAdd = wageAdd.copyWith(
+                    checkOut: DateTime(
+                        _dueDate.year,
+                        _dueDate.month,
+                        _dueDate.day,
+                        _timeCheckOut.hour,
+                        _timeCheckOut.minute));
               },
             )
           ],

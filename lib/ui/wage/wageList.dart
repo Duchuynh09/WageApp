@@ -16,19 +16,51 @@ class ScreenWage extends StatefulWidget {
 
 class _ScreenWageState extends State<ScreenWage> {
   WageManager wageManager = WageManager();
+  late Future<void> _fetchWages;
+
+  Future<void> _refreshWages(BuildContext context) async {
+    await context.read<WageManager>().fetchStaff(widget.staff.id);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchWages = context.read<WageManager>().fetchStaff(widget.staff.id);
+  }
+
   @override
   Widget build(BuildContext newcontext) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Danh sách chấm công'),
         ),
-        body: context.read<WageManager>().items.containsKey(widget.staff.id) ==
-                false
-            ? const Text('chua co du lieu')
-            : ListWage(context.read<WageManager>()));
+        body: FutureBuilder(
+          future: _fetchWages,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return RefreshIndicator(
+                  onRefresh: () => _refreshWages(context),
+                  child: context
+                          .read<WageManager>()
+                          .items[widget.staff.id]!
+                          .isNotEmpty
+                      ? listWage(context.read<WageManager>())
+                      : const Center(
+                          child: Text(
+                            'Vui lòng nhập lương cho nhân viên ',
+                            style: TextStyle(
+                                fontSize: 20, color: Colors.orangeAccent),
+                          ),
+                        ));
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ));
   }
 
-  Widget ListWage(WageManager wageManager) {
+  Widget listWage(WageManager wageManager) {
     return ListView.builder(
       itemBuilder: (context, index) {
         // print(wageManager.items[widget.staff.id]!.elementAt(index));
