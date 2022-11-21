@@ -127,7 +127,7 @@ class _AddWageState extends State<AddWage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Giờ Check In',
+              'Time Check In',
               style: GoogleFonts.lato(fontSize: 28),
             ),
             TextButton(
@@ -257,7 +257,7 @@ class _AddWageState extends State<AddWage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Giờ Check Out',
+          'Time Check Out',
           style: GoogleFonts.lato(fontSize: 28),
         ),
         Row(

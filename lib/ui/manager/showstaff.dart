@@ -22,12 +22,12 @@ class _ShowstaffState extends State<Showstaff> {
     await context.read<StaffManager>().fetchStaff();
   }
 
-  List<String> listItem = [
-    'Chức năng 1',
-    'Chức năng 2',
-    'Chức năng 3',
-    'Chức năng 4'
-  ];
+  // List<String> listItem = [
+  //   'Chức năng 1',
+  //   'Chức năng 2',
+  //   'Chức năng 3',
+  //   'Chức năng 4'
+  // ];
   late String valueChoose = '';
   @override
   void initState() {
@@ -67,9 +67,9 @@ class _ShowstaffState extends State<Showstaff> {
       itemCount: context.read<StaffManager>().items.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
+          shape: const Border(bottom: BorderSide()),
           title: Container(
             padding: const EdgeInsets.all(8),
-            // color: Colors.teal[100],
             child: Column(
               children: [
                 ExpansionTile(
@@ -78,39 +78,46 @@ class _ShowstaffState extends State<Showstaff> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextButton(
+                        Expanded(
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, ScreenWage.routeName,
+                                    arguments: context
+                                        .read<StaffManager>()
+                                        .items[index]);
+                              },
+                              child: const Text('Xem gio da lam')),
+                        ),
+                        Expanded(
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, AddWage.routeName,
+                                    arguments: context
+                                        .read<StaffManager>()
+                                        .items[index]);
+                              },
+                              child: const Text('Nhap gio lam')),
+                        ),
+                        Expanded(
+                          child: OutlinedButton(
+                            style: TextButton.styleFrom(primary: Colors.red),
                             onPressed: () {
-                              Navigator.pushNamed(context, ScreenWage.routeName,
-                                  arguments: context
-                                      .read<StaffManager>()
-                                      .items[index]);
-                            },
-                            child: const Text('Xem gio da lam')),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, AddWage.routeName,
-                                  arguments: context
-                                      .read<StaffManager>()
-                                      .items[index]);
-                            },
-                            child: const Text('Nhap gio lam')),
-                        OutlinedButton(
-                          style: TextButton.styleFrom(primary: Colors.red),
-                          onPressed: () {
-                            context.read<StaffManager>().deleteStaff(
-                                context.read<StaffManager>().items[index].id);
-                            ScaffoldMessenger.of(context)
-                              ..hideCurrentSnackBar()
-                              ..showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Product deleted',
-                                    textAlign: TextAlign.center,
+                              context.read<StaffManager>().deleteStaff(
+                                  context.read<StaffManager>().items[index].id);
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Đã sa thải nhân viên',
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),
-                              );
-                          },
-                          child: const Text('Bỏ nhân viên'),
+                                );
+                            },
+                            child: const Text('Sa thải'),
+                          ),
                         ),
                       ],
                     ),
